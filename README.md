@@ -18,20 +18,20 @@ This repo delivers a minimal, production-leaning FinOps data pipeline:
                 │ 1) Entrega automática (us-east-1)
                 ▼
         ┌──────────────────┐     2) Crawler diario (Glue)
-        │   Amazon S3      │◄──────────────────────────────┐
-        │  Bucket: CUR     │                               │
-        │  Prefix: cur/    │                               │
-        └────────┬─────────┘                               │
-                 │                                         │
-                 │ (Parquet + particiones típicas por fecha)
-                 ▼                                         │
-        ┌──────────────────┐                               │
-        │  AWS Glue Data   │                               │
-        │    Catalog       │                               │
-        │  DB: cur_db      │                               │
-        └────────┬─────────┘                               │
-                 │ 3) Esquema externo (Spectrum)           │
-                 ▼                                         │
+        │   Amazon S3      │◄────────────────────────────── ┐
+        │  Bucket: CUR     │                                │
+        │  Prefix: cur/    │                                │
+        └────────┬─────────┘                                │
+                 │                                          │
+                 │ (Parquet + particiones típicas por fecha)|
+                 ▼                                          │
+        ┌──────────────────┐                                │
+        │  AWS Glue Data   │                                │
+        │    Catalog       │                                │
+        │  DB: cur_db      │                                │
+        └────────┬─────────┘                                │
+                 │ 3) Esquema externo (Spectrum)            │
+                 ▼                                          │
         ┌──────────────────┐     4) Vistas analíticas       │
         │ Amazon Redshift  │────────────────────────────────┘
         │  (Spectrum)      │
