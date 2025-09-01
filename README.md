@@ -1,4 +1,7 @@
 # Atlas Studio — FinOps
+
+Este proyecto es un pipeline FinOps “end-to-end” que convierte el AWS CUR en información utilizable por negocios y tecnología. La solución automatiza la entrega del CUR en S3 (formato Parquet), mantiene el esquema con Glue, crea vistas analíticas en Redshift (tendencia diaria, top servicios, desglose por tags como CostCenter/Environment) y publica dashboards en Grafana listos para showback/chargeback y detección de desviaciones. La infraestructura se define con CDK/SAM, incluyendo permisos IAM, particionado y buenas prácticas de seguridad.
+
 From AWS CUR to actionable insights. (CUR → S3 → Glue → Redshift → Grafana)
 
 This repo delivers a minimal, production-leaning FinOps data pipeline:
