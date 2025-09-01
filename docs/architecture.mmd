@@ -1,0 +1,5 @@
+flowchart LR
+    CUR[AWS CUR (us-east-1)\nParquet + ATHENA] -->|Entrega diaria| S3[(S3 Bucket\nprefix: cur/)]
+    S3 -->|Crawler diario| GLUE[(Glue Data Catalog\nDB: cur_db)]
+    GLUE -->|External Schema| RS[(Amazon Redshift\nSpectrum: spectrum_cur)]
+    RS -->|Vistas SQL\nvw_cost_by_day / vw_cost_by_env| GRAFANA[Grafana]

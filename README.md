@@ -8,6 +8,61 @@ This repo delivers a minimal, production-leaning FinOps data pipeline:
 - **SQL views** for Redshift to power dashboards.
 - **Grafana** dashboard JSON (overview).
 
+## Arquitectura
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                          AWS Billing (CUR)                         │
+│      (Cost & Usage Report: DAILY, Parquet, ATHENA artifact)        │
+└───────────────┬────────────────────────────────────────────────────┘
+                │ 1) Entrega automática (us-east-1)
+                ▼
+        ┌──────────────────┐     2) Crawler diario (Glue)
+        │   Amazon S3      │◄──────────────────────────────┐
+        │  Bucket: CUR     │                               │
+        │  Prefix: cur/    │                               │
+        └────────┬─────────┘                               │
+                 │                                         │
+                 │ (Parquet + particiones típicas por fecha)
+                 ▼                                         │
+        ┌──────────────────┐                               │
+        │  AWS Glue Data   │                               │
+        │    Catalog       │                               │
+        │  DB: cur_db      │                               │
+        └────────┬─────────┘                               │
+                 │ 3) Esquema externo (Spectrum)           │
+                 ▼                                         │
+        ┌──────────────────┐     4) Vistas analíticas       │
+        │ Amazon Redshift  │────────────────────────────────┘
+        │  (Spectrum)      │
+        │  schema: spectrum_cur
+        │  views: vw_cost_by_day, vw_cost_by_env, ...
+        └────────┬─────────┘
+                 │ 5) Consultas
+                 ▼
+        ┌──────────────────┐
+        │     Grafana      │
+        │ (Managed o ECS   │
+        │   Fargate)       │
+        └──────────────────┘
+```
+
+### Diagrama Mermaid
+```mermaid
+flowchart LR
+    CUR[AWS CUR (us-east-1)\nParquet + ATHENA] -->|Entrega diaria| S3[(S3 Bucket\nprefix: cur/)]
+    S3 -->|Crawler diario| GLUE[(Glue Data Catalog\nDB: cur_db)]
+    GLUE -->|External Schema| RS[(Amazon Redshift\nSpectrum: spectrum_cur)]
+    RS -->|Vistas SQL\nvw_cost_by_day / vw_cost_by_env| GRAFANA[Grafana]
+```
+**Componentes clave**
+- **CUR (AWS::CUR::ReportDefinition)**: Parquet bajo `s3://<bucket>/cur/` (*us-east-1*).
+- **S3 (cur/)**: privado, versionado, SSL forzado.
+- **Glue (cur_db + Crawler)**: esquema/particiones.
+- **IAM Role (Spectrum)**: S3 read `cur/*` + Glue read (mínimo privilegio).
+- **Redshift (Spectrum)**: external schema + vistas.
+- **Grafana**: dashboards FinOps.
+
 ## Quick Start
 
 ### 1) CDK deploy (TypeScript, CDK v2)
