@@ -44,5 +44,5 @@ Outputs:
 - Bucket policy only allows CUR delivery principal with constrained `aws:SourceArn` & `aws:SourceAccount`.
 - Spectrum role is least-privilege (S3 read on CUR prefix + Glue read).
 
-## License
-MIT
+## Autor
+Paul Rivera
