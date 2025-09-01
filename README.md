@@ -8,6 +8,26 @@ This repo delivers a minimal, production-leaning FinOps data pipeline:
 - **SQL views** for Redshift to power dashboards.
 - **Grafana** dashboard JSON (overview).
 
+atlas-studio-finops/
+├─ README.md
+├─ cdk/
+│  ├─ package.json
+│  ├─ tsconfig.json
+│  ├─ cdk.json
+│  ├─ bin/
+│  │  └─ atlas-studio-finops.ts
+│  └─ lib/
+│     ├─ finops-cur-stack.ts
+│     └─ grafana-fargate-stack.ts   # opcional (Grafana en ECS Fargate)
+├─ sql/
+│  ├─ external_schema.sql
+│  ├─ vw_cost_by_day.sql
+│  └─ vw_cost_by_env.sql
+└─ grafana/
+   └─ dashboards/
+      └─ atlas-overview.json
+
+
 ## Arquitectura
 
 ```
