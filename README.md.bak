@@ -50,10 +50,10 @@ This repo delivers a minimal, production-leaning FinOps data pipeline:
 ### Diagrama Mermaid
 ```mermaid
 flowchart LR
-  CUR["AWS CUR (us-east-1)<br/>Parquet + ATHENA"] -->|Entrega diaria| S3["S3 Bucket<br/>prefix: cur/"]
-  S3 -->|Crawler diario| GLUE["Glue Data Catalog<br/>DB: cur_db"]
-  GLUE -->|External Schema| RS["Amazon Redshift<br/>Spectrum: spectrum_cur"]
-  RS -->|Vistas SQL<br/>vw_cost_by_day / vw_cost_by_env| GRAFANA[Grafana]
+    CUR[AWS CUR (us-east-1)\nParquet + ATHENA] -->|Entrega diaria| S3[(S3 Bucket\nprefix: cur/)]
+    S3 -->|Crawler diario| GLUE[(Glue Data Catalog\nDB: cur_db)]
+    GLUE -->|External Schema| RS[(Amazon Redshift\nSpectrum: spectrum_cur)]
+    RS -->|Vistas SQL\nvw_cost_by_day / vw_cost_by_env| GRAFANA[Grafana]
 ```
 **Componentes clave**
 - **CUR (AWS::CUR::ReportDefinition)**: Parquet bajo `s3://<bucket>/cur/` (*us-east-1*).
