@@ -1,0 +1,41 @@
+{
+  "title": "Atlas Studio \u2014 Overview",
+  "schemaVersion": 38,
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Daily Cost (USD)",
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT usage_date as time, SUM(cost_usd) as value FROM vw_cost_by_day WHERE usage_date BETWEEN $__timeFrom() AND $__timeTo() GROUP BY 1 ORDER BY 1;"
+        }
+      ],
+      "datasource": {
+        "type": "postgres",
+        "uid": "REDSHIFT_DS"
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top Services (Last 30 days)",
+      "targets": [
+        {
+          "refId": "B",
+          "format": "table",
+          "rawSql": "SELECT service, SUM(cost_usd) AS cost FROM vw_cost_by_day WHERE usage_date >= dateadd(day,-30,current_date) GROUP BY 1 ORDER BY 2 DESC LIMIT 10;"
+        }
+      ],
+      "datasource": {
+        "type": "postgres",
+        "uid": "REDSHIFT_DS"
+      }
+    }
+  ],
+  "version": 1
+}
