@@ -8,6 +8,9 @@ This repo delivers a minimal, production-leaning FinOps data pipeline:
 - **SQL views** for Redshift to power dashboards.
 - **Grafana** dashboard JSON (overview).
 
+## Estructura
+
+```text
 atlas-studio-finops/
 ├─ README.md
 ├─ cdk/
@@ -26,6 +29,7 @@ atlas-studio-finops/
 └─ grafana/
    └─ dashboards/
       └─ atlas-overview.json
+```
 
 
 ## Arquitectura
